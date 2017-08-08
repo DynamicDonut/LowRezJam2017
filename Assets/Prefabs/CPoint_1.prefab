@@ -161,6 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myC: {r: 0.16524234, g: 0.86774266, b: 0.2730336, a: 0.86842537}
+  clearC: {r: 0.9960449, g: 0.8061907, b: 0.17967595, a: 0.87}
+  cPointCleared: 0
 --- !u!135 &135800646481695228
 SphereCollider:
   m_ObjectHideFlags: 1

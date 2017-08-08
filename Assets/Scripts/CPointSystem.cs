@@ -8,6 +8,7 @@ public class CPointSystem : MonoBehaviour {
 	public int currCPoint, currLap, numOfCPoints, maxLaps;
 	GameObject CheckPointSys;
 	bool finishedLap, finishedRace;
+	public Transform[] cPointChilds;
 
 	void Start () {
 		currCPoint = 0;
@@ -17,6 +18,13 @@ public class CPointSystem : MonoBehaviour {
 		CheckPointSys = GameObject.Find ("CheckPointSystem");
 		numOfCPoints = CheckPointSys.transform.childCount - 1;
 		maxLaps = 3;
+
+		cPointChilds = new Transform[CheckPointSys.transform.childCount-1];
+		for (int i = 0; i < CheckPointSys.transform.childCount-1; i++) {
+			if (CheckPointSys.transform.GetChild (i).gameObject.name.Substring (0, 6) == "CPoint") {
+				cPointChilds [i] = CheckPointSys.transform.GetChild (i);
+			}
+		}
 	}
 	
 	void Update () {
@@ -24,6 +32,9 @@ public class CPointSystem : MonoBehaviour {
 			if (currCPoint > numOfCPoints) {
 				currCPoint = 0;
 				currLap++;
+				for (int i = 0; i < cPointChilds.Length; i++) {
+					cPointChilds [i].Find("CPoint_Flag").GetComponent<LookAtCamera> ().cPointCleared = false;
+				}
 			}
 
 			if (currLap > maxLaps) {
@@ -37,9 +48,14 @@ public class CPointSystem : MonoBehaviour {
 
 	void OnTriggerEnter (Collider col){
 		int CheckPointNum = System.Int32.Parse(col.name.Substring (col.name.Length-1));
+
 		if (col.tag == "CheckPoint") {
 			if (CheckPointNum == currCPoint + 1 || CheckPointNum == currCPoint - numOfCPoints) {
 				currCPoint++;
+
+				if (col.name != "FinishLine_0") {
+					col.transform.Find ("CPoint_Flag").GetComponent<LookAtCamera> ().cPointCleared = true;
+				}
 			}
 		}
 	}

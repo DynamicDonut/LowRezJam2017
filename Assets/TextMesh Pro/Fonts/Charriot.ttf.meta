@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 58af50a28784f40e0b323ea5739d64de
+timeCreated: 1502166679
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Charriot
+  fontNames:
+  - Charriot
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
