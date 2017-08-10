@@ -29,8 +29,8 @@ public class LapTimeTracking : MonoBehaviour {
 		seconds = Mathf.FloorToInt (currTime % 60);
 		milliseconds = Mathf.FloorToInt ((currTime * 1000) % 10);
 
-		timeDisplay = string.Format ("T:{0}:{1:00}.{2}", minutes, seconds, milliseconds);
-		myUI.Find ("Current Time").GetComponent<TextMeshProUGUI> ().text = timeDisplay;
+		timeDisplay = string.Format ("{0}:{1:00}.{2}", minutes, seconds, milliseconds);
+		myUI.Find ("Current Time").GetComponent<TextMeshProUGUI> ().text = "T: " + timeDisplay;
 	}
 
 	public void SaveLapTime(){
@@ -39,7 +39,7 @@ public class LapTimeTracking : MonoBehaviour {
 
 		lastTime = Time.time;
 		if (bestTime == 0 || currTime < bestTime) {
-			myLapTime.text = timeDisplay;
+			myLapTime.text = string.Format ("L: " + timeDisplay);
 			bestTime = currTime;
 			myLapTime.enabled = true;
 		}
