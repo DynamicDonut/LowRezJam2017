@@ -6,23 +6,24 @@ public class CPointSystem : MonoBehaviour {
 	// 0 = Start/Finish Line, 1 - XX = Checkpoints in Track
 
 	public int currCPoint, currLap, numOfCPoints, maxLaps;
-	GameObject CheckPointSys;
+	Transform CheckPointSys, myGM;
 	bool finishedLap, finishedRace;
-	public Transform[] cPointChilds;
+	Transform[] cPointChilds;
 
 	void Start () {
 		currCPoint = 0;
 		currLap = 1;
 		finishedLap = finishedRace = false;
 
-		CheckPointSys = GameObject.Find ("CheckPointSystem");
-		numOfCPoints = CheckPointSys.transform.childCount - 1;
+		CheckPointSys = GameObject.Find ("CheckPointSystem").transform;
+		myGM = GameObject.Find ("Game Manager").transform;
+		numOfCPoints = CheckPointSys.childCount - 1;
 		maxLaps = 3;
 
-		cPointChilds = new Transform[CheckPointSys.transform.childCount-1];
-		for (int i = 0; i < CheckPointSys.transform.childCount-1; i++) {
-			if (CheckPointSys.transform.GetChild (i).gameObject.name.Substring (0, 6) == "CPoint") {
-				cPointChilds [i] = CheckPointSys.transform.GetChild (i);
+		cPointChilds = new Transform[CheckPointSys.childCount-1];
+		for (int i = 0; i < CheckPointSys.childCount-1; i++) {
+			if (CheckPointSys.GetChild (i).gameObject.name.Substring (0, 6) == "CPoint") {
+				cPointChilds [i] = CheckPointSys.GetChild (i);
 			}
 		}
 	}
@@ -35,6 +36,7 @@ public class CPointSystem : MonoBehaviour {
 				for (int i = 0; i < cPointChilds.Length; i++) {
 					cPointChilds [i].Find("CPoint_Flag").GetComponent<LookAtCamera> ().cPointCleared = false;
 				}
+				myGM.GetComponent<LapTimeTracking> ().SaveLapTime ();
 			}
 
 			if (currLap > maxLaps) {
