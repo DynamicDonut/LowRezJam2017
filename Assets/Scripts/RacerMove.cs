@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RacerMove : MonoBehaviour {
+	//Slide-y controls = Mass | 0.4, Linear Drag | 1
+	//Stiffer controls = Mass | 0.1, Linear Drag | 3.5
+
 	public float turnSpd, spd, bobModifier, bobSpd;
 	float currSpd, defDrag, currDrag;
 	[Range(0.0f,0.5f)]
@@ -31,9 +34,9 @@ public class RacerMove : MonoBehaviour {
 			//transform.RotateAround(transform.position, Vector3.up, Input.GetAxis("Horizontal") * turnSpd * Time.deltaTime);
 			rb.MoveRotation (rb.rotation + Input.GetAxis ("Horizontal") * turnSpd * -1 * Time.deltaTime);
 		}
-		if (Input.GetAxis ("Vertical") > dZone || Input.GetAxis ("Vertical") < dZone * -1f) {
+		if (Input.GetKey(KeyCode.Z)) {
 			//rb.MovePosition (rb.position + (Vector2) direction * Input.GetAxis ("Vertical") * spd  * Time.deltaTime);
-			rb.AddForce((Vector2) direction.normalized * Input.GetAxis ("Vertical") * currSpd * Time.deltaTime);
+			rb.AddForce((Vector2) direction.normalized * currSpd * Time.deltaTime);
 		}
 
 		//Bobbing Animation
@@ -47,6 +50,7 @@ public class RacerMove : MonoBehaviour {
 			isUnderwater = false;
 			driverSprite.GetComponent<SpriteRenderer> ().color = Color.white;
 		}
-		Debug.Log (startPos);
+
+		//Water Jet Boost Mechanic
 	}
 }
