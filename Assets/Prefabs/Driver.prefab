@@ -75,7 +75,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4767991795106234}
   - component: {fileID: 212978831191629986}
-  - component: {fileID: 111927808211349600}
   m_Layer: 0
   m_Name: Driver Sprite
   m_TagString: Untagged
@@ -159,7 +158,7 @@ Camera:
   field of view: 91.9
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 100
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -185,8 +184,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.4
-  m_LinearDrag: 1
+  m_Mass: 0.1
+  m_LinearDrag: 3.5
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -223,21 +222,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1197653431284974}
   m_Enabled: 1
---- !u!111 &111927808211349600
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1972349561604580}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 8b1e26ebf5b164d5fab0996e570609c0, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 64cbd366247d84abda19d4e1fbbbca19, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &114645670913302510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -270,12 +254,20 @@ MonoBehaviour:
   bobSpd: 2
   dZone: 0.2
   driverSprite: {fileID: 0}
+  boostLvl: 0
+  boostInterval: 1.5
   currTerrain:
     terrainName: Default
     terrainCol: {r: 0, g: 0, b: 1, a: 1}
     terrainDrag: 1
     speedMod: 1
-  isUnderwater: 0
+  boostBar:
+  - {fileID: 21300000, guid: 8142224e1afc84669ba89dcea768d443, type: 3}
+  - {fileID: 21300000, guid: dc194cfdaf5e741988119d2c6f26de63, type: 3}
+  - {fileID: 21300000, guid: 136b7317950af48818be014ba5ae5091, type: 3}
+  - {fileID: 21300000, guid: dc8af69374121488a8cd678049257ed6, type: 3}
+  - {fileID: 21300000, guid: a8f37557080534cfbb3d227ea9245284, type: 3}
+  - {fileID: 21300000, guid: e84a75ffe77bf4a0789a70934598d5fd, type: 3}
 --- !u!114 &114683880683560020
 MonoBehaviour:
   m_ObjectHideFlags: 1

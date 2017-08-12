@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RacerMove : MonoBehaviour {
 	//Slide-y controls = Mass | 0.4, Linear Drag | 1
@@ -13,15 +14,26 @@ public class RacerMove : MonoBehaviour {
 	Rigidbody2D rb;
 	public Transform driverSprite;
 
-	Vector3 startPos;
+	[Range(0.0f,0.5f)]
+	public int boostLvl;
+	public float boostInterval;
+	float lastBoostIntvl, boostMod, boostVelThresh;
+
+	Transform myGUI;
+	Vector2 lastRBVel; Vector3 startPos;
 	public trackTerrain currTerrain;
-	public bool isUnderwater;
+	bool isUnderwater;
+
+	public Sprite[] boostBar;
 
 	void Start (){
 		rb = GetComponent<Rigidbody2D> ();
 		driverSprite = transform.GetChild (0);
 		defDrag = rb.drag;
 		startPos = driverSprite.localPosition;
+
+		boostMod = 2.25f; boostVelThresh = 0.15f;
+		myGUI = GameObject.Find ("Canvas").transform;
 	}
 
 	void FixedUpdate () {
@@ -36,6 +48,12 @@ public class RacerMove : MonoBehaviour {
 		}
 		if (Input.GetKey(KeyCode.Z)) {
 			//rb.MovePosition (rb.position + (Vector2) direction * Input.GetAxis ("Vertical") * spd  * Time.deltaTime);
+
+			if (boostLvl > 0) {
+				rb.AddForce ((Vector2) direction.normalized * spd/boostMod * boostLvl);
+				boostLvl = 0;
+				myGUI.Find ("BoostBar").GetComponent<Image>().sprite = boostBar [boostLvl];
+			}
 			rb.AddForce((Vector2) direction.normalized * currSpd * Time.deltaTime);
 		}
 
@@ -52,5 +70,23 @@ public class RacerMove : MonoBehaviour {
 		}
 
 		//Water Jet Boost Mechanic
+		//Values to change for WaterJetBoost - boostMod, boostVelThresh
+		//Debug.Log (VelocityCheck (transform.position));
+
+		if (VelocityCheck (transform.position) <= boostVelThresh) {
+			if (boostInterval < Time.time - lastBoostIntvl) {
+				if (boostLvl < 5) {
+					boostLvl++;
+					myGUI.Find ("BoostBar").GetComponent<Image>().sprite = boostBar [boostLvl];
+				}
+				lastBoostIntvl = Time.time;
+			}
+		}
+	}
+
+	float VelocityCheck (Vector2 rbV){
+		float velCheck = Vector2.Distance (lastRBVel, rbV);
+		lastRBVel = rbV;
+		return velCheck;
 	}
 }

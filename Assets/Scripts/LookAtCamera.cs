@@ -6,7 +6,7 @@ public class LookAtCamera : MonoBehaviour {
 	Camera cam;
 	SpriteRenderer mySpRend;
 	public Color myC, clearC;
-	Transform myCircle, myCirMask, mainPlayer;
+	Transform myCircle, mainPlayer;
 	CPointSystem myCheckPoints;
 	int myCPoint; bool isNextCheckpoint;
 	public bool cPointCleared;
@@ -20,7 +20,6 @@ public class LookAtCamera : MonoBehaviour {
 
 		mySpRend = GetComponent<SpriteRenderer> ();
 		myCircle = transform.Find ("Border");
-		myCirMask = transform.Find ("SpriteMask");
 
 		cPointCleared = false;
 		mySpRend.enabled = false;
