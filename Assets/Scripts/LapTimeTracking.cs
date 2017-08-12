@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class LapTimeTracking : MonoBehaviour {
@@ -10,6 +11,7 @@ public class LapTimeTracking : MonoBehaviour {
 
 	Transform myUI;
 	int minutes, seconds, milliseconds;
+	public float[] medalTimes;
 
 	void Start(){
 		myLap = 0;
@@ -38,6 +40,13 @@ public class LapTimeTracking : MonoBehaviour {
 		myLap++;
 
 		lastTime = Time.time;
+
+		for (int i = 0; i < medalTimes.Length; i++) {
+			if (currTime < medalTimes[i]){
+				myUI.Find ("Medals").GetChild (i).GetComponent<Image> ().color = Color.white;
+			}
+		}
+
 		if (bestTime == 0 || currTime < bestTime) {
 			myLapTime.text = string.Format ("L: " + timeDisplay);
 			bestTime = currTime;

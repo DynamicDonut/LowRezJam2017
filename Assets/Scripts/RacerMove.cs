@@ -7,6 +7,10 @@ public class RacerMove : MonoBehaviour {
 	//Slide-y controls = Mass | 0.4, Linear Drag | 1
 	//Stiffer controls = Mass | 0.1, Linear Drag | 3.5
 
+	//boostMod - how fast the Jet Boost sends the driver
+	//boostVelThresh - how slow does the force have to be to start the boost refill process
+	//boostInterval - How long should it take for an individual bar to fill up
+
 	public float turnSpd, spd, bobModifier, bobSpd;
 	float currSpd, defDrag, currDrag;
 	[Range(0.0f,0.5f)]
@@ -32,7 +36,7 @@ public class RacerMove : MonoBehaviour {
 		defDrag = rb.drag;
 		startPos = driverSprite.localPosition;
 
-		boostMod = 2.25f; boostVelThresh = 0.15f;
+		boostMod = 2f; boostVelThresh = 0.15f;
 		myGUI = GameObject.Find ("Canvas").transform;
 	}
 
@@ -71,8 +75,6 @@ public class RacerMove : MonoBehaviour {
 
 		//Water Jet Boost Mechanic
 		//Values to change for WaterJetBoost - boostMod, boostVelThresh
-		//Debug.Log (VelocityCheck (transform.position));
-
 		if (VelocityCheck (transform.position) <= boostVelThresh) {
 			if (boostInterval < Time.time - lastBoostIntvl) {
 				if (boostLvl < 5) {
@@ -83,7 +85,8 @@ public class RacerMove : MonoBehaviour {
 			}
 		}
 	}
-
+		
+	//Checks for how far you are from your last frame position - to see how quick you're moving
 	float VelocityCheck (Vector2 rbV){
 		float velCheck = Vector2.Distance (lastRBVel, rbV);
 		lastRBVel = rbV;
