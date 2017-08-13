@@ -9,6 +9,7 @@ public class LapTimeTracking : MonoBehaviour {
 	public float currTime, lastTime, bestTime;
 	public int myLap;
 
+	TextMeshProUGUI myCurText, myCurText2;
 	Transform myUI;
 	int minutes, seconds, milliseconds;
 	public float[] medalTimes;
@@ -18,6 +19,9 @@ public class LapTimeTracking : MonoBehaviour {
 		bestTime = 0f;
 		lastTime = 9999f;
 		myUI = GameObject.Find ("Canvas").transform;
+
+		myCurText = myUI.Find ("Current Time").GetComponent<TextMeshProUGUI> ();
+		myCurText2 = myUI.Find ("Current Time_B").GetComponent<TextMeshProUGUI> ();
 	}
 
 	// Update is called once per frame
@@ -32,11 +36,13 @@ public class LapTimeTracking : MonoBehaviour {
 		milliseconds = Mathf.FloorToInt ((currTime * 1000) % 10);
 
 		timeDisplay = string.Format ("{0}:{1:00}.{2}", minutes, seconds, milliseconds);
-		myUI.Find ("Current Time").GetComponent<TextMeshProUGUI> ().text = "T: " + timeDisplay;
+		myCurText.text = "T: " + timeDisplay;
+		myCurText2.text = "T: " + timeDisplay;
 	}
 
 	public void SaveLapTime(){
 		TextMeshProUGUI myLapTime = myUI.Find ("Lap Time").GetComponent<TextMeshProUGUI> ();
+		TextMeshProUGUI myLapTime2 = myUI.Find ("Lap Time_B").GetComponent<TextMeshProUGUI> ();
 		myLap++;
 
 		lastTime = Time.time;
@@ -49,8 +55,10 @@ public class LapTimeTracking : MonoBehaviour {
 
 		if (bestTime == 0 || currTime < bestTime) {
 			myLapTime.text = string.Format ("L: " + timeDisplay);
+			myLapTime2.text = string.Format ("L: " + timeDisplay);
 			bestTime = currTime;
 			myLapTime.enabled = true;
+			myLapTime2.enabled = true;
 		}
 	}
 }

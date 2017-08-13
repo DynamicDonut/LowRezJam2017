@@ -36,7 +36,7 @@ public class RacerMove : MonoBehaviour {
 		defDrag = rb.drag;
 		startPos = driverSprite.localPosition;
 
-		boostMod = 2f; boostVelThresh = 0.15f;
+		boostMod = 3.5f; boostVelThresh = 0.1f;
 		myGUI = GameObject.Find ("Canvas").transform;
 	}
 
@@ -64,14 +64,14 @@ public class RacerMove : MonoBehaviour {
 		//Bobbing Animation
 		driverSprite.localPosition = startPos + new Vector3(0.0f, 0.0f, Mathf.Sin(Time.time * bobSpd) * bobModifier);
 
-		//Diving Mechanic
-		if (Input.GetButton ("Jump")) {
-			isUnderwater = true;
-			driverSprite.GetComponent<SpriteRenderer> ().color = Color.red;
-		} else {
-			isUnderwater = false;
-			driverSprite.GetComponent<SpriteRenderer> ().color = Color.white;
-		}
+//		//Diving Mechanic
+//		if (Input.GetButton ("Jump")) {
+//			isUnderwater = true;
+//			driverSprite.GetComponent<SpriteRenderer> ().color = Color.red;
+//		} else {
+//			isUnderwater = false;
+//			driverSprite.GetComponent<SpriteRenderer> ().color = Color.white;
+//		}
 
 		//Water Jet Boost Mechanic
 		//Values to change for WaterJetBoost - boostMod, boostVelThresh
