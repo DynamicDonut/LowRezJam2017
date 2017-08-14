@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class LapTimeTracking : MonoBehaviour {
 	public string timeDisplay;
-	public float currTime, lastTime, bestTime;
+	public float currTime, lastTime, bestTime, setTime;
 	public int myLap;
 
 	TextMeshProUGUI myCurText, myCurText2;
@@ -19,25 +20,28 @@ public class LapTimeTracking : MonoBehaviour {
 		bestTime = 0f;
 		lastTime = 9999f;
 		myUI = GameObject.Find ("Canvas").transform;
-
-		myCurText = myUI.Find ("Current Time").GetComponent<TextMeshProUGUI> ();
-		myCurText2 = myUI.Find ("Current Time_B").GetComponent<TextMeshProUGUI> ();
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (myLap == 0) {
-			currTime = Time.time;
-		} else { 
-			currTime = Time.time - lastTime;
-		}
-		minutes = Mathf.FloorToInt ((currTime / 60) % 60);
-		seconds = Mathf.FloorToInt (currTime % 60);
-		milliseconds = Mathf.FloorToInt ((currTime * 1000) % 10);
+		if (SceneManager.GetActiveScene ().name == "Test") {
+			myUI = GameObject.Find ("Canvas").transform;
+			myCurText = myUI.Find ("Current Time").GetComponent<TextMeshProUGUI> ();
+			myCurText2 = myUI.Find ("Current Time_B").GetComponent<TextMeshProUGUI> ();
 
-		timeDisplay = string.Format ("{0}:{1:00}.{2}", minutes, seconds, milliseconds);
-		myCurText.text = "T: " + timeDisplay;
-		myCurText2.text = "T: " + timeDisplay;
+			if (myLap == 0) {
+				currTime = Time.time - setTime;
+			} else { 
+				currTime = Time.time - lastTime;
+			}
+			minutes = Mathf.FloorToInt ((currTime / 60) % 60);
+			seconds = Mathf.FloorToInt (currTime % 60);
+			milliseconds = Mathf.FloorToInt ((currTime * 1000) % 10);
+
+			timeDisplay = string.Format ("{0}:{1:00}.{2}", minutes, seconds, milliseconds);
+			myCurText.text = "T: " + timeDisplay;
+			myCurText2.text = "T: " + timeDisplay;
+		}
 	}
 
 	public void SaveLapTime(){

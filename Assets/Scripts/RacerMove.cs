@@ -14,16 +14,18 @@ public class RacerMove : MonoBehaviour {
 	public float turnSpd, spd, bobModifier, bobSpd;
 	float currSpd, defDrag, currDrag;
 	[Range(0.0f,0.5f)]
-	public float dZone = 0.2f;
+	public float dZone;
 	Rigidbody2D rb;
 	public Transform driverSprite;
+	Animator myAnimator;
 
 	[Range(0.0f,0.5f)]
 	public int boostLvl;
 	public float boostInterval;
 	float lastBoostIntvl, boostMod, boostVelThresh;
 
-	Transform myGUI;
+	AudioSource mySound;
+	Transform myGUI, myGM;
 	Vector2 lastRBVel; Vector3 startPos;
 	public trackTerrain currTerrain;
 	bool isUnderwater;
@@ -36,8 +38,21 @@ public class RacerMove : MonoBehaviour {
 		defDrag = rb.drag;
 		startPos = driverSprite.localPosition;
 
+		mySound = driverSprite.GetComponent<AudioSource> ();
+		myGM = GameObject.Find ("Game Manager").transform;
+		dZone = myGM.GetComponent<MainMenuSetup> ().dZone;
+		myAnimator = driverSprite.GetComponent<Animator> ();
 		boostMod = 3.5f; boostVelThresh = 0.1f;
 		myGUI = GameObject.Find ("Canvas").transform;
+	}
+
+	void Update(){
+		myAnimator.SetFloat ("TurningVal", Input.GetAxis ("Horizontal"));
+		if (Input.GetAxis ("Horizontal") < 0) {
+			driverSprite.GetComponent<SpriteRenderer> ().flipX = true;
+		} else {
+			driverSprite.GetComponent<SpriteRenderer> ().flipX = false;
+		}
 	}
 
 	void FixedUpdate () {
@@ -54,7 +69,9 @@ public class RacerMove : MonoBehaviour {
 			//rb.MovePosition (rb.position + (Vector2) direction * Input.GetAxis ("Vertical") * spd  * Time.deltaTime);
 
 			if (boostLvl > 0) {
-				rb.AddForce ((Vector2) direction.normalized * spd/boostMod * boostLvl);
+				mySound.volume = boostLvl * .1f + .4f;
+				mySound.Play ();
+				rb.AddForce ((Vector2) direction.normalized * spd*2/boostMod * boostLvl);
 				boostLvl = 0;
 				myGUI.Find ("BoostBar").GetComponent<Image>().sprite = boostBar [boostLvl];
 			}
@@ -72,6 +89,8 @@ public class RacerMove : MonoBehaviour {
 //			isUnderwater = false;
 //			driverSprite.GetComponent<SpriteRenderer> ().color = Color.white;
 //		}
+
+		//Water Spray Particles
 
 		//Water Jet Boost Mechanic
 		//Values to change for WaterJetBoost - boostMod, boostVelThresh
