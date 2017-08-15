@@ -6,7 +6,7 @@ public class CPointSystem : MonoBehaviour {
 	// 0 = Start/Finish Line, 1 - XX = Checkpoints in Track
 
 	public int currCPoint, currLap, numOfCPoints, maxLaps;
-	Transform CheckPointSys, myGM;
+	Transform CheckPointSys, myGM, myRacer;
 	bool finishedLap, finishedRace;
 	Transform[] cPointChilds;
 
@@ -17,6 +17,7 @@ public class CPointSystem : MonoBehaviour {
 
 		CheckPointSys = GameObject.Find ("CheckPointSystem").transform;
 		myGM = GameObject.Find ("Game Manager").transform;
+		myRacer = GameObject.Find ("Driver").transform;
 		numOfCPoints = CheckPointSys.childCount - 1;
 		maxLaps = 3;
 
@@ -33,6 +34,8 @@ public class CPointSystem : MonoBehaviour {
 			if (currCPoint > numOfCPoints) {
 				currCPoint = 0;
 				currLap++;
+				myRacer.GetComponent<RacerMove>().mySound.PlayOneShot (myRacer.GetComponent<RacerMove>().sfxClips [3]);
+
 				for (int i = 0; i < cPointChilds.Length; i++) {
 					cPointChilds [i].Find("CPoint_Flag").GetComponent<LookAtCamera> ().cPointCleared = false;
 				}
@@ -54,6 +57,7 @@ public class CPointSystem : MonoBehaviour {
 		if (col.tag == "CheckPoint") {
 			if (CheckPointNum == currCPoint + 1 || CheckPointNum == currCPoint - numOfCPoints) {
 				currCPoint++;
+				myRacer.GetComponent<RacerMove>().mySound.PlayOneShot (myRacer.GetComponent<RacerMove>().sfxClips [2]);
 
 				if (col.name != "FinishLine_0") {
 					col.transform.Find ("CPoint_Flag").GetComponent<LookAtCamera> ().cPointCleared = true;

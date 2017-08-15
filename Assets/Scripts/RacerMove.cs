@@ -20,15 +20,16 @@ public class RacerMove : MonoBehaviour {
 	Animator myAnimator;
 
 	[Range(0.0f,0.5f)]
-	public int boostLvl;
+	public float boostLvl;
 	public float boostInterval;
 	float lastBoostIntvl, boostMod, boostVelThresh;
 
-	AudioSource mySound;
+	public AudioSource mySound;
+	public AudioClip[] sfxClips;
 	Transform myGUI, myGM;
 	Vector2 lastRBVel; Vector3 startPos;
 	public trackTerrain currTerrain;
-	bool isUnderwater;
+	bool isAccelerating;
 
 	public Sprite[] boostBar;
 
@@ -38,12 +39,17 @@ public class RacerMove : MonoBehaviour {
 		defDrag = rb.drag;
 		startPos = driverSprite.localPosition;
 
+		isAccelerating = false;
 		mySound = driverSprite.GetComponent<AudioSource> ();
 		myGM = GameObject.Find ("Game Manager").transform;
 		dZone = myGM.GetComponent<MainMenuSetup> ().dZone;
 		myAnimator = driverSprite.GetComponent<Animator> ();
 		boostMod = 3.5f; boostVelThresh = 0.1f;
 		myGUI = GameObject.Find ("Canvas").transform;
+
+		mySound.clip = sfxClips [0];
+		mySound.loop = true;
+		mySound.Play ();
 	}
 
 	void Update(){
@@ -60,26 +66,53 @@ public class RacerMove : MonoBehaviour {
 		currDrag = defDrag * currTerrain.terrainDrag;
 		rb.drag = currDrag;
 
-		Vector3 direction = transform.TransformPoint(driverSprite.localPosition) - new Vector3 (transform.position.x, transform.position.y, 20f);
+		Vector3 direction = transform.TransformPoint (driverSprite.localPosition) - new Vector3 (transform.position.x, transform.position.y, 20f);
 		if (Input.GetAxis ("Horizontal") > dZone || Input.GetAxis ("Horizontal") < dZone * -1f) {
 			//transform.RotateAround(transform.position, Vector3.up, Input.GetAxis("Horizontal") * turnSpd * Time.deltaTime);
 			rb.MoveRotation (rb.rotation + Input.GetAxis ("Horizontal") * turnSpd * -1 * Time.deltaTime);
 		}
-		if (Input.GetKey(KeyCode.Z)) {
+		if (Input.GetButton("Accel")) {
 			//rb.MovePosition (rb.position + (Vector2) direction * Input.GetAxis ("Vertical") * spd  * Time.deltaTime);
+			if (!isAccelerating) {
+				mySound.clip = sfxClips [0];
+				mySound.loop = true;
+				mySound.Play ();
+			}
 
+			isAccelerating = true;
+
+//			if (VelocityCheck (transform.position) <= boostVelThresh) {
+				if (boostInterval < Time.time - lastBoostIntvl) {
+					if (boostLvl < 5) {
+						boostLvl += .5f;
+						myGUI.Find ("BoostBar").GetComponent<Image> ().sprite = boostBar [Mathf.FloorToInt (boostLvl)];
+					}
+					lastBoostIntvl = Time.time;
+				}
+//			}
+
+			rb.AddForce ((Vector2)direction.normalized * currSpd * Time.deltaTime);
+		} else {
+			isAccelerating = false;
+
+		}
+			
+
+		if (Input.GetButtonUp("Accel")) {
 			if (boostLvl > 0) {
 				mySound.volume = boostLvl * .1f + .4f;
-				mySound.Play ();
-				rb.AddForce ((Vector2) direction.normalized * spd*2/boostMod * boostLvl);
+				mySound.PlayOneShot (sfxClips [1]);
+				rb.AddForce ((Vector2)direction.normalized * spd * 2 / boostMod * boostLvl);
 				boostLvl = 0;
-				myGUI.Find ("BoostBar").GetComponent<Image>().sprite = boostBar [boostLvl];
+				myGUI.Find ("BoostBar").GetComponent<Image> ().sprite = boostBar [Mathf.FloorToInt (boostLvl)];
 			}
-			rb.AddForce((Vector2) direction.normalized * currSpd * Time.deltaTime);
 		}
 
+
+
+
 		//Bobbing Animation
-		driverSprite.localPosition = startPos + new Vector3(0.0f, 0.0f, Mathf.Sin(Time.time * bobSpd) * bobModifier);
+		driverSprite.localPosition = startPos + new Vector3 (0.0f, 0.0f, Mathf.Sin (Time.time * bobSpd) * bobModifier);
 
 //		//Diving Mechanic
 //		if (Input.GetButton ("Jump")) {
@@ -93,16 +126,38 @@ public class RacerMove : MonoBehaviour {
 		//Water Spray Particles
 
 		//Water Jet Boost Mechanic
-		//Values to change for WaterJetBoost - boostMod, boostVelThresh
-		if (VelocityCheck (transform.position) <= boostVelThresh) {
-			if (boostInterval < Time.time - lastBoostIntvl) {
-				if (boostLvl < 5) {
-					boostLvl++;
-					myGUI.Find ("BoostBar").GetComponent<Image>().sprite = boostBar [boostLvl];
-				}
-				lastBoostIntvl = Time.time;
-			}
-		}
+	}
+
+//		//Values to change for WaterJetBoost - boostMod, boostVelThresh
+//		if (!isAccelerating) {
+////			if (VelocityCheck (transform.position) <= boostVelThresh) {
+//			rb.angularDrag = 0f;
+//		if (Input.GetKeyUp (KeyCode.X)) {
+////				if (boostInterval < Time.time - lastBoostIntvl) {
+//					if (boostLvl < 5) {
+//						boostLvl += .5f;
+//						myGUI.Find ("BoostBar").GetComponent<Image> ().sprite = boostBar [Mathf.FloorToInt (boostLvl)];
+//					}
+//					//lastBoostIntvl = Time.time;
+//			}
+////			}
+//		}
+//		else {
+//			rb.angularDrag = 5f;
+////			if (Input.GetKeyUp (KeyCode.X)) {
+////				if (boostInterval < Time.time - lastBoostIntvl) {
+////					if (boostLvl < 3) {
+////						boostLvl += .15f;
+////						myGUI.Find ("BoostBar").GetComponent<Image> ().sprite = boostBar [Mathf.FloorToInt (boostLvl)];
+////					}
+////					//lastBoostIntvl = Time.time;
+////				}
+////			}
+//	}
+//	}
+
+	void OnCollisionEnter2D(){
+		mySound.PlayOneShot (sfxClips [4], 0.4f);
 	}
 		
 	//Checks for how far you are from your last frame position - to see how quick you're moving

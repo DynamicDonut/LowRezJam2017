@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4619454287370096}
   - component: {fileID: 114834769119720560}
   - component: {fileID: 114202243909996256}
+  - component: {fileID: 82128947924274296}
+  - component: {fileID: 114325678382712092}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: GameController
@@ -41,6 +43,86 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &82128947924274296
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1905579267336074}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 52a4fa7bd9ae44ca5b365837b62b2c4c, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.344
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &114202243909996256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,6 +135,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotSpd: 10
+  transitionSpd: 4
+--- !u!114 &114325678382712092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1905579267336074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42499588069be42df8590293b7d7b1e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayingMusic: 0
+  musicClips:
+  - {fileID: 8300000, guid: 48903346cfa494cbca4adedf83fca9b5, type: 3}
+  - {fileID: 8300000, guid: 52a4fa7bd9ae44ca5b365837b62b2c4c, type: 3}
 --- !u!114 &114834769119720560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -68,8 +166,9 @@ MonoBehaviour:
   currTime: 0
   lastTime: 0
   bestTime: 0
+  setTime: 0
   myLap: 0
   medalTimes:
-  - 20
-  - 21.25
-  - 22.75
+  - 28.5
+  - 30
+  - 33

@@ -35,10 +35,12 @@ public class MainMenuSetup : MonoBehaviour {
 
 			if (!isOnInfoScreen) {
 				if (Input.GetKeyUp (KeyCode.DownArrow)) {
+					myUI.GetComponent<AudioSource> ().Play ();
 					menuMoving = -1;
 				}
 			} else {
 				if (Input.GetKeyUp (KeyCode.UpArrow)) {
+					myUI.GetComponent<AudioSource> ().Play ();
 					menuMoving = 1;
 				}
 			}
@@ -66,6 +68,7 @@ public class MainMenuSetup : MonoBehaviour {
 			if (Input.GetKeyUp (KeyCode.Z) && !isOnInfoScreen) {
 				GetComponent<LapTimeTracking> ().setTime = Time.time;
 				SceneManager.LoadScene ("Test");
+				GetComponent<MusicManagement> ().musicChange (1);
 			}
 		}
 	}

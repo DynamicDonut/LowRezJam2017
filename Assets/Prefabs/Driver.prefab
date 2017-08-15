@@ -93,6 +93,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4767991795106234}
   - component: {fileID: 212978831191629986}
+  - component: {fileID: 82283944717631474}
+  - component: {fileID: 95383255883885290}
   m_Layer: 0
   m_Name: Driver Sprite
   m_TagString: Untagged
@@ -145,13 +147,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1197653431284974}
-  m_LocalRotation: {x: -0.5, y: -0, z: -0, w: 0.86602545}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.44619775, y: 0, z: 0, w: 0.8949344}
+  m_LocalPosition: {x: 0, y: 0.1, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4917786201950272}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -53, y: 0, z: 0}
 --- !u!4 &4917786201950272
 Transform:
   m_ObjectHideFlags: 1
@@ -187,7 +189,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 91.9
+  field of view: 97.1
   orthographic: 0
   orthographic size: 5
   m_Depth: 100
@@ -262,6 +264,86 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1197653431284974}
   m_Enabled: 1
+--- !u!82 &82283944717631474
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1972349561604580}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b114727cd69d84b1abe3d33c366c50d0, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.576
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!92 &92159202626783192
 Behaviour:
   m_ObjectHideFlags: 1
@@ -269,6 +351,23 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1197653431284974}
   m_Enabled: 1
+--- !u!95 &95383255883885290
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1972349561604580}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6cc676f27bbd5455685e1e321faf980b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114645670913302510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -296,13 +395,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpd: 200
-  spd: 210
+  spd: 375
   bobModifier: 0.05
   bobSpd: 2
   dZone: 0.2
   driverSprite: {fileID: 0}
   boostLvl: 0
   boostInterval: 0.25
+  mySound: {fileID: 82283944717631474}
+  sfxClips:
+  - {fileID: 8300000, guid: 1edb3ea2c0fbb46caba10b8abe23565f, type: 3}
+  - {fileID: 8300000, guid: b114727cd69d84b1abe3d33c366c50d0, type: 3}
+  - {fileID: 8300000, guid: 62bf33af897e542f09f38cc2133e5777, type: 3}
+  - {fileID: 8300000, guid: 2ba31452f274b4f7d8a0d39ccaf1a2b3, type: 3}
+  - {fileID: 8300000, guid: b802278757bef4e7f8cf2e610d71c353, type: 3}
   currTerrain:
     terrainName: Default
     terrainCol: {r: 0, g: 0, b: 1, a: 1}
